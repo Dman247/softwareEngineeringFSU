@@ -16,24 +16,33 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <div class="container">
             <div class="jumbotron text-center">
-                <h1>Calendar App</h1>
+                <h1>Calendar App - Create Calendar</h1>
             </div>
             <div class="container">
                 <form action="/CreateCalendar.php">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CName">Calendar Name:</span>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label from="CName">Calendar Name:</label>
+                            <input type="text" class="form-control" id="CName" placeholder="My Calendar">
                         </div>
-                        <input type="text" class="form-control" placeholder="Please enter a calendar name" aria-label="Please enter a calendar name" aria-describedby="basic-addon1">
                     </div>
-                    
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CName">Picture:</span>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                           <label from="CName">Calendar Admins (seperated by commas):</label>
+                            <input type="text" class="form-control" id="CName" placeholder="user@email.com, user1@email.com">
                         </div>
-                        <input type="text" class="form-control" placeholder="Please add a picture for the calendar." aria-label="Please add a picture for the calendar." aria-describedby="basic-addon1">
                     </div>
-                                      
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                           <label from="CName">Calendar Users (seperated by commas):</label>
+                            <input type="text" class="form-control" id="CName" placeholder="user@email.com, user1@email.com">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-block">Create Calendar</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
