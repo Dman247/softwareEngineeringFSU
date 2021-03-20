@@ -8,8 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="header.jsp" %>
     </head>
     <body>
         <form name="register" action="RegistrationFormAction.jsp" method="get">
