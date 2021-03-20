@@ -17,8 +17,8 @@ This will clone a local instance of this repo.
 
 
 * **Dylan Hague** - https://github.com/Dman247/
-* **Matthew Pollock** - *Fill*
-* **Seung Un Nam** - *Fill*
+* **Matthew Pollock** - https://github.com/hipposaver 
+* **Seung Un Nam** - https://github.com/Snam21 
 
 ## License
 
