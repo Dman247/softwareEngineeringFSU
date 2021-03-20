@@ -8,9 +8,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="header.jsp" %>
     </head>
     <body>
+        <%@include file="header.jsp" %>
         <div class="container">
             <div class="jumbotron text-center">
                 <h1>Calendar App - Log In</h1>

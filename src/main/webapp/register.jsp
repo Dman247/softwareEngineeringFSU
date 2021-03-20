@@ -8,9 +8,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="header.jsp" %>
     </head>
     <body>
+        <%@include file="header.jsp" %>
         <form name="register" action="RegistrationFormAction.jsp" method="get">
             <table border="1">
                 <thead>
@@ -50,8 +50,8 @@
                         <td><button>Register</button></td>
                     </tr>
                 </thead>
-                
-                
+
+
             </table>
 
         </form>

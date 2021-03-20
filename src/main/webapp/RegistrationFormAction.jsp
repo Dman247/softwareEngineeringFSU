@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="header.jsp" %>
     </head>
     <body>
+        <%@include file="header.jsp" %>
         <h1>Hello World!</h1>
     </body>
 </html>
