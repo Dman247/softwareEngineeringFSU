@@ -1,76 +1,106 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Business logic to connect to database.
+ * @author nmahadev
  */
 package myBeans;
 
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
-/**
- *
- * @author snam
- */
 public class DBconnect {
-    
-  // driver and connection string variables
-  private final String driver = "com.mysql.jdbc.Driver";
-  private final String url = "jdbc:mysql://localhost:3306/dbcalendar";
-  private final String user = "calendar";
-  private final String pwd = "calendar";
-  
-  
-  // JDBC variables and methods
-  private Connection conn = null;
-  private Statement stm = null;
-  private PreparedStatement pstm = null;
-  private ResultSet rst = null;
-  private ResultSetMetaData rsmd = null;
-  
-  
-  
-  
-// The two private methods below are used to open and close DB
-  private String open() {
-    String message = "Opened";
+
+  // Declare variables
+  String driver = "com.mysql.jdbc.Driver";
+  String url = "jdbc:mysql://localhost:3306/dbCalendar";
+  String user = "root";
+  String pwd = "";
+
+  // Databaseobject to declare
+  Connection conn;
+  Statement stm;
+  ResultSet rst;
+  ResultSetMetaData rsmd;
+
+  // Connect to database
+  private String openDB() {
     try {
-      Class.forName(driver); // load driver
+      Class.forName(driver); // Load the MySQL driver
       conn = DriverManager.getConnection(url, user, pwd);
       stm = conn.createStatement();
+      return "Success";
     } catch (Exception e) {
-      message = e.getMessage();
+      return e.getMessage();
     }
-    return message;
   }
 
-  private String close() {
-    String message = "Closed";
+  private void closeDB() {
     try {
       stm.close();
       conn.close();
     } catch (Exception e) {
-      message = e.getMessage();
+    }
+  }
+  
+  // Add stuff into database
+  public String updateNow(String sql) {
+    String message = openDB();
+    if(message.equals("Success")) {
+      try {
+        stm.executeUpdate(sql);
+        closeDB();
+        return "Update Successful";
+      }
+      catch(Exception e) {
+        closeDB();
+        return e.getMessage();
+      }
     }
     return message;
   }
   
-  
-  // Business logic: Method to insert data
-  public String insertData(String sql) {
-    String message = open();
-    if (message.equals("Opened")) {
-      try {
-        stm.executeUpdate(sql);
-        message = close();
-      } catch (Exception e) {
-        message = e.getMessage();
-      }
+  public int getUserID(String sql){
+    String result = "Error: ";
+    String message = openDB();
+    int uID = 0;
+    if (message.equals("Success")){
+        try {
+            rst = stm.executeQuery(sql);
+            rsmd.getColumnCount();
+            return rsmd.getColumnCount();
+        } catch (Exception e) {
+            return 99;
+        }
+    } else {
+        return 0;
     }
-    return message;
+  }
+  
+    public String getUsername(String sql){
+    String result = "Error: ";
+    String message = openDB();
+    String Username;
+    if (message.equals("Success")){
+        try {
+            rst = stm.executeQuery(sql);
+            rsmd = rst.getMetaData();
+            rsmd.getColumnCount();
+            rst.next();
+            Username = rst.getString("Username");
+            return Username;
+        } catch (Exception e) {
+            return "99";
+        }
+    } else {
+        return "0";
+    }
+  }
+  
+  public String isWorking() {
+    String result = openDB();
+    if(result.equals("Success")) {
+        closeDB();
+        return result;
+    } else {
+        return result;
+    }
   }
 }

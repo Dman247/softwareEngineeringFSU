@@ -12,7 +12,7 @@
                 <h1>Calendar App - Create Calendar</h1>
             </div>
             <div class="container">
-                <form action="/CreateCalendar.php">
+                <form name="CAction" action="calendarAction.jsp" method="get">
                     <div class="form-group row">
                         <div class="col-sm-4">
                             <label from="CName">Calendar Name:</label>
@@ -21,14 +21,20 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
-                           <label from="CName">Calendar Admins (seperated by commas):</label>
-                            <input type="text" class="form-control" id="CName" placeholder="user@email.com, user1@email.com">
+                           <label from="CAdmins">Calendar Admins (seperated by commas):</label>
+                            <input type="text" class="form-control" id="CAdmins" placeholder="user@email.com, user1@email.com">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
-                           <label from="CName">Calendar Users (seperated by commas):</label>
-                            <input type="text" class="form-control" id="CName" placeholder="user@email.com, user1@email.com">
+                           <label from="CUsers">Calendar Users (seperated by commas):</label>
+                            <input type="text" class="form-control" id="CUsers" placeholder="user@email.com, user1@email.com">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                           <label from="CInfo">Calendar Info:</label><br>
+                           <textarea class="form-control" id="CInfo" rows="3" placeholder="Input information about your calendar."></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
