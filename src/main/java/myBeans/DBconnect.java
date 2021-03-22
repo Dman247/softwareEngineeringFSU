@@ -90,6 +90,12 @@ public String updateNow(String sql) {
                     }
                 }
                 closeDB();
+                //
+                //if(totalValid == utokenEmail.length){
+                //    isValid = 3;
+                //} else {
+                //    return isValid;
+                //}
                 return isValid;
             } catch (Exception e){
                 isValid = 1;
