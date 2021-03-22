@@ -15,14 +15,19 @@
   <body>
     <%
         DBconnect dbConnect = new DBconnect();
-        String Username;
-        int uID = 44;
+        String aEmails;
         String sql;
-        sql = "SELECT Username from user where UserID = 2";
-        Username = dbConnect.getUsername(sql);
-        response.sendRedirect(Username);
+        int vEmails = 0;
+        aEmails = request.getParameter("CAdmins");
+        sql = "SELECT Email from user";
+        vEmails = dbConnect.validAdminEmail(sql, aEmails);
+        if (vEmails == 1){
+            session.setAttribute("ValidEmail", 1);
+        } else {
+            session.setAttribute("ValidEmail", 1);
+        }
+        String test = String.valueOf(vEmails);
+        response.sendRedirect(test);
     %>
-
-    <script> alert(%<uID%>)</script>
   </body>
 </html>

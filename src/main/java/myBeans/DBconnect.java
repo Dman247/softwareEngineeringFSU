@@ -41,7 +41,7 @@ public class DBconnect {
   }
   
   // Add stuff into database
-  public String updateNow(String sql) {
+public String updateNow(String sql) {
     String message = openDB();
     if(message.equals("Success")) {
       try {
@@ -56,25 +56,53 @@ public class DBconnect {
     }
     return message;
   }
-  
-  public int getUserID(String sql){
-    String result = "Error: ";
-    String message = openDB();
-    int uID = 0;
-    if (message.equals("Success")){
-        try {
-            rst = stm.executeQuery(sql);
-            rsmd.getColumnCount();
-            return rsmd.getColumnCount();
-        } catch (Exception e) {
-            return 99;
+    // TODO:
+    // validate against 2x of the same email in the string
+    public int validAdminEmail(String sql, String strEmail){
+        int i=0;
+        // 0 = cant open DB
+        // 1 = cant parse data
+        // 2 = at least one invalid email
+        // 3 = all emails are valid!
+        int isValid = 2;
+        int totalValid = 0;
+        // parse at , and multiple ,'s treated as one
+        String delims = "[,]+";
+        // replace spaces so formatting like name@name.com, name@name.com works as well as name@name.com,name@name.com
+        strEmail = strEmail.replaceAll(" ", "");
+        String[] utokenEmail = strEmail.split(delims);
+        String message = openDB();
+        if (message.equals("Success")){
+            try{
+                rst = stm.executeQuery(sql);
+                // loop through all emails looking for your email
+                while(rst.next()){
+                    // reset i so we start back at the beggining of our input email list
+                    i = 0;
+                    // loop thru all input emails vs the one grabbed from the db
+                    for (i=0;i<utokenEmail.length;i++){
+                        if (rst.getString("Email").equals(utokenEmail[i])){
+                            // we found a valid email so increase the valid count
+                            // eventually we can compare the valid amount to the input amount to make
+                            // sure that all emails are valid. this way we only need to access the db once
+                            totalValid++;
+                        }
+                    }
+                }
+                closeDB();
+                return isValid;
+            } catch (Exception e){
+                isValid = 1;
+                closeDB();
+                return isValid;
+            }
+        } else {
+        isValid = 0;
+        return isValid;
         }
-    } else {
-        return 0;
     }
-  }
   
-    public String getUsername(String sql){
+public String getUsername(String sql){
     String result = "Error: ";
     String message = openDB();
     String Username;
@@ -92,15 +120,7 @@ public class DBconnect {
     } else {
         return "0";
     }
-  }
-  
-  public String isWorking() {
-    String result = openDB();
-    if(result.equals("Success")) {
-        closeDB();
-        return result;
-    } else {
-        return result;
-    }
-  }
+}
+
+
 }

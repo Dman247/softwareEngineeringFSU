@@ -1,3 +1,17 @@
+function showAlert(Text, AlertType){
+    var alertBox = document.getElementById("myalert");
+    switch(alertType)
+    {
+        case 0:
+            alertBox.style.display = "none";
+            break;
+        case 1:
+            alertBox.style.display = "block";
+            break;
+        break;
+    }
+}
+
 function validateEmail() {
   var email = document.register.email.value;
   if (email.endsWith("@fitchburgstate.edu")) {

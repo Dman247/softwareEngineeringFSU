@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2021 at 04:26 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Mar 22, 2021 at 01:16 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -114,6 +115,16 @@ CREATE TABLE `user` (
   `SecurityQ` varchar(255) NOT NULL,
   `SecurityA` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`UserID`, `Username`, `Email`, `Password`, `First Name`, `Last Name`, `Bio`, `PictureID`, `SecurityQ`, `SecurityA`) VALUES
+(1, 'hipposaver', 'hipposaver@hotmail.com', 'test', 'Matt', 'Pollock', 'Hi this is a test account', 12345, 'Test', 'Test'),
+(2, 'not hipposaver', 'nothipposaver@hotmail.com', 'test', 'Matt', 'Pollock', 'Hi this is a test account1', 12345, 'Test', 'Test'),
+(3, 'mike', 'mike@mike.com', 'mike', 'mike', 'mike', 'hi im mike', 235, 'test', 'test1'),
+(4, 'michael', 'mike@mise.whatever', 'asdsad', 'test', 'test', 'this is a test acc', 3434, 'test', 'test1');
 
 --
 -- Indexes for dumped tables
