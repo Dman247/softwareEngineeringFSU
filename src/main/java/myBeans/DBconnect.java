@@ -193,5 +193,32 @@ public class DBconnect {
             return "0";
         }
     }
+    
+  public int login(String userName, String password) {
+    int returnValue = 0;
+    String sql = "SELECT count(*) as 'Count' FROM user WHERE Username = '"
+            + userName
+            + "' AND Password = '"
+            + password
+            + "'";
+    String message = openDB();
+    if (message.equals("Success")) {
+      try {
+        rst = stm.executeQuery(sql);
+        while (rst.next()) {
+          returnValue = rst.getInt("Count");
+        }
+        closeDB();
+        return returnValue;
+      } catch (Exception e) {
+        System.out.println(e);
+        closeDB();
+        return 0;
+      }
+    } else {
+      System.out.println(message);
+      return 0;
+    }
+  }
 
 }
