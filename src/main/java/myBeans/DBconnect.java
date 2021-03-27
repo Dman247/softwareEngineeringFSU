@@ -174,6 +174,30 @@ public class DBconnect {
         }
     }
 
+    public String getEventsByCalendarID(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String EventID = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                while (rst.next()) {
+                    EventID = EventID + String.valueOf(rst.getInt("EventID")) + ",";
+                }
+                return EventID;
+            } catch (Exception e) {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
+
     public String getUsername(String sql) {
         String result = "Error: ";
         String message = openDB();
