@@ -244,6 +244,29 @@ public class DBconnect {
       return 0;
     }
   }
-
-   String Dropdown();
+  
+  public String dropdown(String sql) {
+    String result = "<option disabled selected>Select one ...</option>\n";
+    String message = openDB();
+    if (message.equals("Success")) {
+      try {
+        rst = stm.executeQuery(sql);
+        rsmd = rst.getMetaData();
+        int count = rsmd.getColumnCount();
+        while (rst.next()) {
+          result += "<option value='" + rst.getInt(1) + "'>";
+          for (int i = 2; i <= count; i++) {
+            result += rst.getString(i) + " ";
+          }
+          result += "</option>\n";
+        }
+        closeDB();
+        return result;
+      } catch (Exception e) {
+        return e.getMessage();
+      }
+    } else {
+      return message;
+    }
+  }
 }
