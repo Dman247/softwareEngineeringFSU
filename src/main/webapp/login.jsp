@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    </head>
+    </head> 
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
@@ -25,7 +25,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="">
-                                <input type="text" class="form-control" name="password" placeholder="Password">
+                                <input type="password" class="form-control" name="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="form-group row">
