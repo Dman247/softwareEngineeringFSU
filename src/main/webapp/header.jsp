@@ -19,7 +19,4 @@
 	<script type="text/javascript" src="my.js"></script>
 	<title>Calendar App</title>
 </head>
-
-<body>
-
-</body>
+<img src="calendarAppIcon.png" style="width:19%;max-width:320px" alt="weblogo" class="float-left">
