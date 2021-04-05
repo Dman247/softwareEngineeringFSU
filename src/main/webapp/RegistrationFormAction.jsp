@@ -7,7 +7,7 @@
 	</head>
 
 	<body>
-		<% String Username=request.getParameter("Username"); String Email=request.getParameter("Email"); String
+		<% String Username=request.getParameter("Username"); String Email=request.getParameter("email"); String
 			Password=request.getParameter("Password"); String PasswordC=request.getParameter("PasswordC"); String
 			FirstName=request.getParameter("FirstName"); String LastName=request.getParameter("LastName"); String
 			Bio=request.getParameter("Bio"); String SecurityQ=request.getParameter("SecurityQ"); String
@@ -17,6 +17,7 @@
 			+ "', '" + Bio + "', 0, '" + SecurityQ + "', '" + SecurityA + "')" ; DBconnect dbConnect=new DBconnect(); String
 			err=dbConnect.updateNow(sql); if (err.equals("Closed")) response.sendRedirect("index.jsp"); else %>
 			<script>alert("<%= err %>");</script>
+			</div>
 	</body>
 
 	</html>

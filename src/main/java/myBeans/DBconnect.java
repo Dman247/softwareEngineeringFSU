@@ -269,4 +269,64 @@ public class DBconnect {
       return message;
     }
   }
+  
+  // Business logic: Method to display query as html table. 
+  // Function call goes between <table> and </table> tags
+ public String createHTMLTable(String sql) {
+    String html = "";
+    String message = openDB();
+    if (message.equals("Success")) {
+      try {
+        rst = stm.executeQuery(sql);
+        rsmd = rst.getMetaData();
+        int count = rsmd.getColumnCount();
+        html += "<thead><tr>";
+        for (int i = 1; i <= count; i++) {
+          html += "<td>" + rsmd.getColumnName(i) + "</td>";
+        }
+        html += "</tr></thead>";
+
+        html += "<tbody>";
+        while (rst.next()) {
+          html += "<tr>";
+          for (int i = 1; i <= count; i++) {
+            html += "<td>" + rst.getString(i) + "</td>";
+          }
+          html += "</tr>";
+        }
+        html += "</tbody>";
+        closeDB();
+        return html;
+      } catch (Exception e) {
+        return e.getMessage();
+      }
+    } else {
+      return message;
+    }
+
+  }
+ 
+  public String createHTMLDropdown(String sql) {
+    String html = "";
+    String message = openDB();
+    if (message.equals("Success")) {
+      try {
+        rst = stm.executeQuery(sql);
+        rsmd = rst.getMetaData();
+        int count = rsmd.getColumnCount();
+        while (rst.next()) {
+          html += "<option value='"+rst.getString(1)+"'>";
+          for (int i=2; i <= count; i++)
+            html += rst.getString(i)+" ";
+          html += "</option>";
+        }
+        return html;
+      }
+      catch (Exception e) {
+        return e.getMessage();
+      }
+    }
+    else
+      return message;
+  }
 }

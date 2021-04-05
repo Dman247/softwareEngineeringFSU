@@ -11,53 +11,52 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <div class="container">
+            <div class="jumbotron text-center">
+            <h1>Registration Form</h1>
+            </div>
         <form name="register" action="RegistrationFormAction.jsp" method="get">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <td>UserName</td>
-                        <td><input type="text" name="Username" size="40" required></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input type="text" name="Email" size="40" id="Email" required onInput="validateEmail()"></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input type="password" name="Password" id="pwd" size="40" required onInput="validatePwd()"></td>
-                    </tr>
-                    <tr>
-                        <td>Password Confirmation</td>
-                        <td><input type="password" name="PasswordC" id="pwdC" size="40" required onInput="confirmPwd()"></td>
-                    </tr>
-                    <tr>
-                        <td>First Name</td>
-                        <td><input type="text" name="FirstName" size="40" required></td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td><input type="text" name="LastName" size="40" required></td>
-                    </tr>
-                    <tr>
-                        <td>bio</td>
-                        <td><input type="text" name="Bio" size="40" required></td>
-                    </tr>
-                    <tr>
-                        <td>Security Question</td>
-                        <td><input type="text" name="SecurityQ" size="40" required></td>
-                    </tr>
-                    <tr>
-                        <td>Security Answer</td>
-                        <td><input type="text" name="SecurityA" size="40" required></td>
-                    </tr>
-                    <tr>
-                        <td><button>Register</button></td>
-                    </tr>
-                </thead>
-
-
-            </table>
-
-        </form>
+            <div class="form-group">
+                <label for="UserName">Username:</label>
+                <input type="text" class="form-control" name="Username" size="40" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="Email" size="40" id="email" required onInput="validateEmail()">
+            </div>
+            <div class="form-group">
+                <label for="Password">Password:</label>
+                <input type="password" class="form-control" name="Password" id="pwd" size="40" required onInput="validatePwd()">
+            </div>
+            <div class="form-group">
+                <label for="PasswordC">Password Confirmation:</label>
+                <input type="password" class="form-control" name="PasswordC" id="pwdC" size="40" required onInput="confirmPwd()">
+            </div>
+            <div class="form-group">
+                <label for="FirstName">First Name:</label>
+                <input type="text" class="form-control" name="FirstName" size="40" required>
+            </div>
+            <div class="form-group">
+                <label for="LastName">Last Name:</label>
+                <input type="text" class="form-control" name="LastName" size="40" required>
+            </div>
+            <div class="form-group">
+                <label for="Bio">Bio:</label>
+                <input type="text" class="form-control" name="Bio" size="40" required>
+            </div>
+            <div class="form-group">
+                <label for="SecurityQ">Security Question:</label>
+                <input type="text" class="form-control" name="SecurityQ" size="40" required>
+            </div>
+            <div class="form-group">
+                <label for="SecurityA">Security Answer:</label>
+                <input type="text" class="form-control" name="SecurityA" size="40" required>
+            </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        
+        
+        <%@include file="footer.jsp" %>
     </body>
 </html>
