@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : Mar 20, 2021, 1:12:57 AM
-    Author     : dhague
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,7 +27,7 @@
                                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                             </div>
                             <span>
-                                <a href="/Sprint1/forgotPassword.jsp">
+                                <a href="/Sprint1/forgotPassword1.jsp">
                                     <button type="button" class="btn btn-link">
                                         Forgot Password
                                     </button>
