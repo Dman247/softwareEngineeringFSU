@@ -36,82 +36,81 @@ public class DBconnect {
         }
     }
 
-
-  private void closeDB() {
-    try {
-      stm.close();
-      conn.close();
-    } catch (Exception e) {
+    private void closeDB() {
+        try {
+            stm.close();
+            conn.close();
+        } catch (Exception e) {
+        }
     }
-  }
 
-  // Add stuff into database
-  public String updateNow(String sql) {
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        stm.executeUpdate(sql);
-        closeDB();
-        return "Update Successful";
-      } catch (Exception e) {
-        closeDB();
-        return e.getMessage();
-      }
-    }
-    return message;
-  }
-
-  // TODO:
-  // validate against 2x of the same email in the string
-  public int validEmail(String sql, String strEmail) {
-    int i = 0;
-    // 0 = cant open DB
-    // 1 = cant parse data
-    // 2 = at least one invalid email
-    // 3 = all emails are valid!
-    int isValid = 2;
-    int totalValid = 0;
-    // parse at , and multiple ,'s treated as one
-    String delims = "[,]+";
-    // replace spaces so formatting like name@name.com, name@name.com works as well as name@name.com,name@name.com
-    strEmail = strEmail.replaceAll(" ", "");
-    String[] utokenEmail = strEmail.split(delims);
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        // loop through all emails looking for your email
-        while (rst.next()) {
-          // reset i so we start back at the beggining of our input email list
-          i = 0;
-          // loop thru all input emails vs the one grabbed from the db
-          for (i = 0; i < utokenEmail.length; i++) {
-            if (rst.getString("Email").equals(utokenEmail[i])) {
-              // we found a valid email so increase the valid count
-              // eventually we can compare the valid amount to the input amount to make
-              // sure that all emails are valid. this way we only need to access the db once
-              totalValid++;
+    // Add stuff into database
+    public String updateNow(String sql) {
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                stm.executeUpdate(sql);
+                closeDB();
+                return "Update Successful";
+            } catch (Exception e) {
+                closeDB();
+                return e.getMessage();
             }
-          }
         }
-        closeDB();
-        // if all of the emails are valid
-        if (totalValid == utokenEmail.length) {
-          return 3;
-        } else {
-          // if there are any bad emails
-          return 2;
-        }
-      } catch (Exception e) {
-        isValid = 1;
-        closeDB();
-        return isValid;
-      }
-    } else {
-      isValid = 0;
-      return isValid;
+        return message;
     }
-  }
+
+    // TODO:
+    // validate against 2x of the same email in the string
+    public int validEmail(String sql, String strEmail) {
+        int i = 0;
+        // 0 = cant open DB
+        // 1 = cant parse data
+        // 2 = at least one invalid email
+        // 3 = all emails are valid!
+        int isValid = 2;
+        int totalValid = 0;
+        // parse at , and multiple ,'s treated as one
+        String delims = "[,]+";
+        // replace spaces so formatting like name@name.com, name@name.com works as well as name@name.com,name@name.com
+        strEmail = strEmail.replaceAll(" ", "");
+        String[] utokenEmail = strEmail.split(delims);
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                // loop through all emails looking for your email
+                while (rst.next()) {
+                    // reset i so we start back at the beggining of our input email list
+                    i = 0;
+                    // loop thru all input emails vs the one grabbed from the db
+                    for (i = 0; i < utokenEmail.length; i++) {
+                        if (rst.getString("Email").equals(utokenEmail[i])) {
+                            // we found a valid email so increase the valid count
+                            // eventually we can compare the valid amount to the input amount to make
+                            // sure that all emails are valid. this way we only need to access the db once
+                            totalValid++;
+                        }
+                    }
+                }
+                closeDB();
+                // if all of the emails are valid
+                if (totalValid == utokenEmail.length) {
+                    return 3;
+                } else {
+                    // if there are any bad emails
+                    return 2;
+                }
+            } catch (Exception e) {
+                isValid = 1;
+                closeDB();
+                return isValid;
+            }
+        } else {
+            isValid = 0;
+            return isValid;
+        }
+    }
 
     public int getUserIDByName(String username) {
         String sql;
@@ -137,7 +136,6 @@ public class DBconnect {
             return 0;
         }
     }
-  
 
     public int getUserIDByEmail(String email) {
         String sql;
@@ -163,7 +161,6 @@ public class DBconnect {
             return 0;
         }
     }
-  
 
     public int getCalendarIDByName(String CalendarName) {
         String sql;
@@ -189,7 +186,6 @@ public class DBconnect {
             return 0;
         }
     }
-  
 
     public String getCalendarNameByID(int CalendarID) {
         String sql;
@@ -490,7 +486,7 @@ public class DBconnect {
             closeDB();
             return "";
         }
-		}
+    }
 
     public String getUserNameByID(int UserID) {
         String sql;
@@ -511,17 +507,13 @@ public class DBconnect {
             } catch (Exception e) {
                 closeDB();
                 return "";
+            }
         } else {
             closeDB();
             return "";
         }
-        return EventID;
-      } catch (Exception e) {
-        return "";
-      } else {
-      return "";
     }
-}
+
     public String getUsername(String sql) {
         String result = "Error: ";
         String message = openDB();
@@ -545,205 +537,206 @@ public class DBconnect {
         }
     }
 
-  public int login(String userName, String password) {
-    int returnValue = 0;
-    String sql = "SELECT count(*) as 'Count' FROM user WHERE Username = '"
-            + userName
-            + "' AND Password = '"
-            + password
-            + "'";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        while (rst.next()) {
-          returnValue = rst.getInt("Count");
-        }
-        closeDB();
-        return returnValue;
-      } catch (Exception e) {
-        System.out.println(e);
-        closeDB();
-        return 0;
-      }
-    } else {
-      System.out.println(message);
-      return 0;
-    }
-  }
-  
-  public String dropdown(String sql) {
-    String result = "<option disabled selected>Select one ...</option>\n";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        int count = rsmd.getColumnCount();
-        while (rst.next()) {
-          result += "<option value='" + rst.getInt(1) + "'>";
-          for (int i = 2; i <= count; i++) {
-            result += rst.getString(i) + " ";
-          }
-          result += "</option>\n";
-        }
-        closeDB();
-        return result;
-      } catch (Exception e) {
-        return e.getMessage();
-      }
-    } else {
-      return message;
-    }
-  }
-  
-  // Business logic: Method to display query as html table. 
-  // Function call goes between <table> and </table> tags
- public String createHTMLTable(String sql) {
-    String html = "";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        int count = rsmd.getColumnCount();
-        html += "<thead><tr>";
-        for (int i = 1; i <= count; i++) {
-          html += "<td>" + rsmd.getColumnName(i) + "</td>";
-        }
-        html += "</tr></thead>";
-
-        html += "<tbody>";
-        while (rst.next()) {
-          html += "<tr>";
-          for (int i = 1; i <= count; i++) {
-            html += "<td>" + rst.getString(i) + "</td>";
-          }
-          html += "</tr>";
-        }
-        html += "</tbody>";
-        closeDB();
-        return html;
-      } catch (Exception e) {
-        return e.getMessage();
-      }
-    } else {
-      return message;
-    }
-
-  }
- 
-  public String createHTMLDropdown(String sql) {
-    String html = "";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        int count = rsmd.getColumnCount();
-        while (rst.next()) {
-          html += "<option value='"+rst.getString(1)+"'>";
-          for (int i=2; i <= count; i++)
-            html += rst.getString(i)+" ";
-          html += "</option>";
-        }
-        return html;
-      }
-      catch (Exception e) {
-        return e.getMessage();
-      }
-    }
-    else
-      return message;
-  }
-	
-  public boolean checkEmailExists(String email) {
-    Boolean returnValue = false;
-    String sql = "SELECT Username, Email FROM user WHERE Email='" + email + "'";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        if (rst.first()) {
-          returnValue = true;
+    public int login(String userName, String password) {
+        int returnValue = 0;
+        String sql = "SELECT count(*) as 'Count' FROM user WHERE Username = '"
+                + userName
+                + "' AND Password = '"
+                + password
+                + "'";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                while (rst.next()) {
+                    returnValue = rst.getInt("Count");
+                }
+                closeDB();
+                return returnValue;
+            } catch (Exception e) {
+                System.out.println(e);
+                closeDB();
+                return 0;
+            }
         } else {
-          returnValue = false;
+            System.out.println(message);
+            return 0;
         }
-        closeDB();
-        return returnValue;
-      } catch (Exception e) {
-        System.out.println(e);
-        closeDB();
-        return false;
-      }
-    } else {
-      System.out.println(message);
-      return false;
     }
-  }
 
-  public boolean checkAnswer(String email, String answer) {
-    Boolean returnValue = false;
-    String sql = "SELECT Email FROM user WHERE Email='" + email + "' AND SecurityA='" + answer + "'";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        if (rst.first()) {
-          returnValue = true;
+    public String dropdown(String sql) {
+        String result = "<option disabled selected>Select one ...</option>\n";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                int count = rsmd.getColumnCount();
+                while (rst.next()) {
+                    result += "<option value='" + rst.getInt(1) + "'>";
+                    for (int i = 2; i <= count; i++) {
+                        result += rst.getString(i) + " ";
+                    }
+                    result += "</option>\n";
+                }
+                closeDB();
+                return result;
+            } catch (Exception e) {
+                return e.getMessage();
+            }
         } else {
-          returnValue = false;
+            return message;
         }
-        closeDB();
-        return returnValue;
-      } catch (Exception e) {
-        System.out.println(e);
-        closeDB();
-        return false;
-      }
-    } else {
-      System.out.println(message);
-      return false;
     }
-  }
 
-  public String getQuestion(String email) {
-    String returnValue = "";
-    String sql = "SELECT SecurityQ FROM user WHERE Email='" + email + "'";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        if (rst.first()) {
-          returnValue = rst.getString("SecurityQ");
+    // Business logic: Method to display query as html table. 
+    // Function call goes between <table> and </table> tags
+    public String createHTMLTable(String sql) {
+        String html = "";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                int count = rsmd.getColumnCount();
+                html += "<thead><tr>";
+                for (int i = 1; i <= count; i++) {
+                    html += "<td>" + rsmd.getColumnName(i) + "</td>";
+                }
+                html += "</tr></thead>";
+
+                html += "<tbody>";
+                while (rst.next()) {
+                    html += "<tr>";
+                    for (int i = 1; i <= count; i++) {
+                        html += "<td>" + rst.getString(i) + "</td>";
+                    }
+                    html += "</tr>";
+                }
+                html += "</tbody>";
+                closeDB();
+                return html;
+            } catch (Exception e) {
+                return e.getMessage();
+            }
         } else {
-          returnValue = "";
+            return message;
         }
-        closeDB();
-        return returnValue;
-      } catch (Exception e) {
-        System.out.println(e);
-        closeDB();
-        return "";
-      }
-    } else {
-      System.out.println(message);
-      return "";
+
     }
-  }
-  
-  public void updatePassword(String email, String password) {
-    String sql = "UPDATE user SET Password = '" + password + "' WHERE user.Email = '" + email + "'";
-    String message = openDB();
-    if (message.equals("Success")) {
-      try {
-        stm.executeUpdate(sql);
-        closeDB();
-      } catch (Exception e) {
-        System.out.println(e);
-        closeDB();
-      }
-    } else {
-      System.out.println(message);
+
+    public String createHTMLDropdown(String sql) {
+        String html = "";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                int count = rsmd.getColumnCount();
+                while (rst.next()) {
+                    html += "<option value='" + rst.getString(1) + "'>";
+                    for (int i = 2; i <= count; i++) {
+                        html += rst.getString(i) + " ";
+                    }
+                    html += "</option>";
+                }
+                return html;
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+        } else {
+            return message;
+        }
     }
-  }
+
+    public boolean checkEmailExists(String email) {
+        Boolean returnValue = false;
+        String sql = "SELECT Username, Email FROM user WHERE Email='" + email + "'";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                if (rst.first()) {
+                    returnValue = true;
+                } else {
+                    returnValue = false;
+                }
+                closeDB();
+                return returnValue;
+            } catch (Exception e) {
+                System.out.println(e);
+                closeDB();
+                return false;
+            }
+        } else {
+            System.out.println(message);
+            return false;
+        }
+    }
+
+    public boolean checkAnswer(String email, String answer) {
+        Boolean returnValue = false;
+        String sql = "SELECT Email FROM user WHERE Email='" + email + "' AND SecurityA='" + answer + "'";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                if (rst.first()) {
+                    returnValue = true;
+                } else {
+                    returnValue = false;
+                }
+                closeDB();
+                return returnValue;
+            } catch (Exception e) {
+                System.out.println(e);
+                closeDB();
+                return false;
+            }
+        } else {
+            System.out.println(message);
+            return false;
+        }
+    }
+
+    public String getQuestion(String email) {
+        String returnValue = "";
+        String sql = "SELECT SecurityQ FROM user WHERE Email='" + email + "'";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                if (rst.first()) {
+                    returnValue = rst.getString("SecurityQ");
+                } else {
+                    returnValue = "";
+                }
+                closeDB();
+                return returnValue;
+            } catch (Exception e) {
+                System.out.println(e);
+                closeDB();
+                return "";
+            }
+        } else {
+            System.out.println(message);
+            return "";
+        }
+    }
+
+    public void updatePassword(String email, String password) {
+        String sql = "UPDATE user SET Password = '" + password + "' WHERE user.Email = '" + email + "'";
+        String message = openDB();
+        if (message.equals("Success")) {
+            try {
+                stm.executeUpdate(sql);
+                closeDB();
+            } catch (Exception e) {
+                System.out.println(e);
+                closeDB();
+            }
+        } else {
+            System.out.println(message);
+        }
+    }
+}
