@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2021 at 01:16 AM
+-- Generation Time: Apr 06, 2021 at 02:45 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.4
 
@@ -34,6 +34,19 @@ CREATE TABLE `admincalendar` (
   `CalendarID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `admincalendar`
+--
+
+INSERT INTO `admincalendar` (`AdminCalendarID`, `UserID`, `CalendarID`) VALUES
+(0, 3, 4),
+(5, 1, 1),
+(7, 3, 1),
+(8, 1, 3),
+(9, 1, 4),
+(10, 1, 2),
+(11, 2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -58,6 +71,19 @@ CREATE TABLE `authedcalendar` (
   `CalendarID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `authedcalendar`
+--
+
+INSERT INTO `authedcalendar` (`AuthedCalendarID`, `UserID`, `CalendarID`) VALUES
+(3, 3, 1),
+(4, 3, 3),
+(5, 1, 4),
+(6, 1, 2),
+(7, 2, 2),
+(8, 4, 3),
+(9, 3, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -78,9 +104,20 @@ CREATE TABLE `authedevent` (
 
 CREATE TABLE `calendar` (
   `CalendarID` int(11) NOT NULL,
+  `Name` varchar(50) NOT NULL,
   `PictureID` int(11) NOT NULL,
   `Info` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `calendar`
+--
+
+INSERT INTO `calendar` (`CalendarID`, `Name`, `PictureID`, `Info`) VALUES
+(1, 'test', 0, 'test'),
+(2, 'hipposaver', 0, 'this is a test calendar'),
+(3, 'this is my calendar', 0, 'this is my calendar'),
+(4, 'my calendar', 0, 'this is my calendar');
 
 -- --------------------------------------------------------
 
@@ -94,8 +131,23 @@ CREATE TABLE `event` (
   `HourStart` time NOT NULL,
   `HourFinish` time NOT NULL,
   `Info` varchar(255) NOT NULL,
-  `CalendarId` int(11) NOT NULL
+  `CalendarId` int(11) NOT NULL,
+  `EventName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`EventID`, `Date`, `HourStart`, `HourFinish`, `Info`, `CalendarId`, `EventName`) VALUES
+(1, '2021-11-11', '01:01:01', '02:01:01', 'My info', 2, 'My event name'),
+(2, '2021-12-11', '01:01:01', '02:01:01', 'My info1', 2, 'My event name 2'),
+(3, '2021-12-10', '01:01:01', '02:01:01', 'test', 2, 'test'),
+(4, '2021-12-10', '01:01:01', '02:01:01', 'testing', 2, 'asdasdasd'),
+(5, '2021-12-10', '01:01:01', '02:01:01', 'testing', 3, 'dfgdfg4r'),
+(6, '2021-12-10', '01:01:01', '02:01:01', 'testingaagain', 2, 'My event name'),
+(7, '2021-12-10', '01:01:01', '02:01:01', 'testingasdasdasd', 3, 'asdasd'),
+(8, '2021-07-14', '01:15:01', '02:01:01', 'This is a test event', 4, 'This is my event!');
 
 -- --------------------------------------------------------
 
@@ -113,18 +165,20 @@ CREATE TABLE `user` (
   `Bio` varchar(255) NOT NULL,
   `PictureID` int(11) NOT NULL,
   `SecurityQ` varchar(255) NOT NULL,
-  `SecurityA` varchar(255) NOT NULL
+  `SecurityA` varchar(255) NOT NULL,
+  `SessionID` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserID`, `Username`, `Email`, `Password`, `First Name`, `Last Name`, `Bio`, `PictureID`, `SecurityQ`, `SecurityA`) VALUES
-(1, 'hipposaver', 'hipposaver@hotmail.com', 'test', 'Matt', 'Pollock', 'Hi this is a test account', 12345, 'Test', 'Test'),
-(2, 'not hipposaver', 'nothipposaver@hotmail.com', 'test', 'Matt', 'Pollock', 'Hi this is a test account1', 12345, 'Test', 'Test'),
-(3, 'mike', 'mike@mike.com', 'mike', 'mike', 'mike', 'hi im mike', 235, 'test', 'test1'),
-(4, 'michael', 'mike@mise.whatever', 'asdsad', 'test', 'test', 'this is a test acc', 3434, 'test', 'test1');
+INSERT INTO `user` (`UserID`, `Username`, `Email`, `Password`, `First Name`, `Last Name`, `Bio`, `PictureID`, `SecurityQ`, `SecurityA`, `SessionID`) VALUES
+(1, 'hipposaver', 'hipposaver@hotmail.com', 'test', 'Matt', 'Pollock', 'Hi this is a test account', 12345, 'Test', 'Test', 'JkL00NVMaaz3wr3z'),
+(2, 'not hipposaver', 'nothipposaver@hotmail.com', 'test', 'Matt', 'Pollock', 'Hi this is a test account1', 12345, 'Test', 'Test', ''),
+(3, 'mike', 'mike@mike.com', 'mike', 'mike', 'mike', 'hi im mike', 235, 'test', 'test1', ''),
+(4, 'michael', 'mike@mise.whatever', 'asdsad', 'test', 'test', 'this is a test acc', 3434, 'test', 'test1', ''),
+(5, 'michael1', 'mike@mise.whatever1', 'asdsad1', 'test1', 'test1', 'this is a test acc1', 34341, 'test1', 'test11', '');
 
 --
 -- Indexes for dumped tables
@@ -190,7 +244,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `admincalendar`
 --
 ALTER TABLE `admincalendar`
-  MODIFY `AdminCalendarID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `AdminCalendarID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `adminevent`
@@ -202,7 +256,7 @@ ALTER TABLE `adminevent`
 -- AUTO_INCREMENT for table `authedcalendar`
 --
 ALTER TABLE `authedcalendar`
-  MODIFY `AuthedCalendarID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `AuthedCalendarID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `authedevent`
@@ -214,13 +268,13 @@ ALTER TABLE `authedevent`
 -- AUTO_INCREMENT for table `calendar`
 --
 ALTER TABLE `calendar`
-  MODIFY `CalendarID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CalendarID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

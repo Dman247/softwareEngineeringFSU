@@ -8,29 +8,34 @@ import java.sql.*;
 
 public class DBconnect {
 
-  // Declare variables
-  String driver = "com.mysql.jdbc.Driver";
-  String url = "jdbc:mysql://localhost:3306/dbCalendar";
-  String user = "root";
-  String pwd = "";
+    // Declare variables
+    String driver = "com.mysql.jdbc.Driver";
+    String url = "jdbc:mysql://localhost:3306/dbCalendar";
+    String user = "root";
+    String pwd = "";
 
-  // Databaseobject to declare
-  Connection conn;
-  Statement stm;
-  ResultSet rst;
-  ResultSetMetaData rsmd;
+    // Databaseobject to declare
+    Connection conn;
+    Statement stm;
+    ResultSet rst;
+    ResultSetMetaData rsmd;
 
-  // Connect to database
-  private String openDB() {
-    try {
-      Class.forName(driver); // Load the MySQL driver
-      conn = DriverManager.getConnection(url, user, pwd);
-      stm = conn.createStatement();
-      return "Success";
-    } catch (Exception e) {
-      return e.getMessage();
+    Statement stm1;
+    ResultSet rst1;
+    ResultSetMetaData rsmd1;
+
+    // Connect to database
+    private String openDB() {
+        try {
+            Class.forName(driver); // Load the MySQL driver
+            conn = DriverManager.getConnection(url, user, pwd);
+            stm = conn.createStatement();
+            return "Success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
-  }
+
 
   private void closeDB() {
     try {
@@ -108,115 +113,437 @@ public class DBconnect {
     }
   }
 
-  public int getUserIDByName(String username) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    int uID = 0;
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM user WHERE Username='" + username + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        uID = rst.getInt("UserID");
-        return uID;
-      } catch (Exception e) {
-        return 0;
-      }
-    } else {
-      return 0;
+    public int getUserIDByName(String username) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        int uID = 0;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE Username='" + username + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                uID = rst.getInt("UserID");
+                closeDB();
+                return uID;
+            } catch (Exception e) {
+                closeDB();
+                return 0;
+            }
+        } else {
+            closeDB();
+            return 0;
+        }
     }
-  }
+  
 
-  public int getUserIDByEmail(String email) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    int uID = 0;
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM user WHERE Email='" + email + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        uID = rst.getInt("UserID");
-        return uID;
-      } catch (Exception e) {
-        return 0;
-      }
-    } else {
-      return 0;
+    public int getUserIDByEmail(String email) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        int uID = 0;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE Email='" + email + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                uID = rst.getInt("UserID");
+                closeDB();
+                return uID;
+            } catch (Exception e) {
+                closeDB();
+                return 0;
+            }
+        } else {
+            closeDB();
+            return 0;
+        }
     }
-  }
+  
 
-  public int getCalendarIDByName(String CalendarName) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    int cID;
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM calendar WHERE Name='" + CalendarName + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        cID = rst.getInt("CalendarID");
-        return cID;
-      } catch (Exception e) {
-        return 0;
-      }
-    } else {
-      return 0;
+    public int getCalendarIDByName(String CalendarName) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        int cID;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM calendar WHERE Name='" + CalendarName + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                cID = rst.getInt("CalendarID");
+                closeDB();
+                return cID;
+            } catch (Exception e) {
+                closeDB();
+                return 0;
+            }
+        } else {
+            closeDB();
+            return 0;
+        }
     }
-  }
+  
 
-  public String getEventsByCalendarID(int CalendarID) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    String EventID = "";
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM event WHERE CalendarID='" + CalendarID + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        while (rst.next()) {
-          EventID = EventID + String.valueOf(rst.getInt("EventID")) + ",";
+    public String getCalendarNameByID(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String cName;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM calendar WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                cName = rst.getString("Name");
+                closeDB();
+                return cName;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    // get the calendars you're authed to see
+    // event1, event2, event3
+    // for parsing 
+    public String getCalendarIDsbyUserID(int UserID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String cNames = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM authedcalendar WHERE UserID='" + UserID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    cNames = cNames + rst.getInt("CalendarID") + ",";
+                }
+                closeDB();
+                return cNames;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    public int getUserIDBySession(String SessionID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        int iSession;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE SessionID='" + SessionID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                iSession = rst.getInt("UserID");
+                closeDB();
+                return iSession;
+            } catch (Exception e) {
+                closeDB();
+                return 0;
+            }
+        } else {
+            closeDB();
+            return 0;
+        }
+    }
+
+    public String getCalendarInfoByID(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String cInfo;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM calendar WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                cInfo = rst.getString("Info");
+                closeDB();
+                return cInfo;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    public String getEventNameByID(int EventID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String EventName = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE EventID='" + EventID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    EventName = rst.getString("EventName");
+                }
+                closeDB();
+                return EventName;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    public String getEventDateByID(int EventID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String EventDate = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE EventID='" + EventID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    EventDate = rst.getString("Date");
+                }
+                closeDB();
+                return EventDate;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    public String getEventHourStartByID(int EventID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String EventDate = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE EventID='" + EventID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    EventDate = rst.getString("HourStart");
+                }
+                closeDB();
+                return EventDate;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    public String getEventHourFinishByID(int EventID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String EventDate = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE EventID='" + EventID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    EventDate = rst.getString("HourFinish");
+                }
+                closeDB();
+                return EventDate;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    // saves events to a string in the format
+    // event1, event2, event3
+    // for parsing 
+    public String getEventsByCalendarID(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String EventID = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    EventID = EventID + String.valueOf(rst.getInt("EventID")) + ",";
+                }
+                // removes the last ,
+                EventID = EventID.substring(0, EventID.length() - 1);
+                closeDB();
+                return EventID;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    // saves events to a string in the format
+    // event1, event2, event3
+    // for parsing 
+    public String getCalendarUsersByCalendarID(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String users = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM authedcalendar WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    users = users + rst.getInt("UserID") + ",";
+                }
+                // removes the last ,
+                users = users.substring(0, users.length() - 1);
+                closeDB();
+                return users;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    // saves events to a string in the format
+    // event1, event2, event3
+    // for parsing 
+    public String getCalendarAdminsByCalendarID(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String users = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM admincalendar WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    users = users + rst.getInt("UserID") + ",";
+                }
+                // removes the last ,
+                users = users.substring(0, users.length() - 1);
+                closeDB();
+                return users;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+		}
+
+    public String getUserNameByID(int UserID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String Username = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE UserID='" + UserID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    Username = rst.getString("Username");
+                }
+                closeDB();
+                return Username;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+        } else {
+            closeDB();
+            return "";
         }
         return EventID;
       } catch (Exception e) {
         return "";
-      }
-    } else {
+      } else {
       return "";
     }
-  }
-
-  public String getUsername(String sql) {
-    String result = "Error: ";
-    String message = openDB();
-    String Username;
-    if (message.equals("Success")) {
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        Username = rst.getString("Username");
-        return Username;
-      } catch (Exception e) {
-        return "99";
-      }
-    } else {
-      return "0";
+}
+    public String getUsername(String sql) {
+        String result = "Error: ";
+        String message = openDB();
+        String Username;
+        if (message.equals("Success")) {
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                Username = rst.getString("Username");
+                closeDB();
+                return Username;
+            } catch (Exception e) {
+                closeDB();
+                return "99";
+            }
+        } else {
+            closeDB();
+            return "0";
+        }
     }
-  }
 
   public int login(String userName, String password) {
     int returnValue = 0;

@@ -12,7 +12,7 @@
                 <h1>Calendar App - Create Calendar</h1>
             </div>
             <div class="container">
-                <form name="CAction" action="calendarAction.jsp">
+                <form name="CAction" action="calendarAction.jsp?GetEventInfo=0">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label from="CName">Calendar Name:</label>
