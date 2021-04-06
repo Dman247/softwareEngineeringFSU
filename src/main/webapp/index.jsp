@@ -20,7 +20,7 @@
                 <br>
                 <a href="CreateCalendar.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Create Calendar</button></a>
                 <br>
-                <a href="dropdown.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Search</button></a>
+                <a href="viewEvent.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">View Event</button></a>
                 <br>
                 <a href="searchbar.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Search Bar</button></a>
                 <br>
