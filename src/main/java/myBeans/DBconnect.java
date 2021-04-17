@@ -110,7 +110,8 @@ public class DBconnect {
       isValid = 0;
       return isValid;
     }
-
+  }
+  
     public int getUserIDBySession(String SessionID) {
         String sql;
         String result = "Error: ";
@@ -135,7 +136,6 @@ public class DBconnect {
             return 0;
         }
     }
-  }
 
   public int getUserIDByEmail(String email) {
     String sql;
@@ -210,6 +210,7 @@ public class DBconnect {
       closeDB();
       return "";
     }
+  }
 
   public String getCalendarInfoByID(int CalendarID) {
     String sql;
