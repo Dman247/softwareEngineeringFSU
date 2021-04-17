@@ -7,6 +7,10 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <script>
+            var sessionID = "${sessionID}";
+            if (sessionID) alert(sessionID);
+        </script>
         <div class="container">
             <div class="jumbotron text-center">
                 <h1>Calendar App</h1>

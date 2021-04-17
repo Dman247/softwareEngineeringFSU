@@ -17,16 +17,14 @@
       DBconnect dbConnect = new DBconnect();
       String userName = request.getParameter("userName");
       String password = request.getParameter("password");
-      int result = dbConnect.login(userName, password);
-      if (result > 0) {
-        request.setAttribute("authed", true);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
-      } else {
+      String result = dbConnect.login(userName, password);
+      if (result ==  "") {
         request.setAttribute("message", "Incorrect Username or Password");
         request.getRequestDispatcher("login.jsp").forward(request, response);
+      } else {
+        request.setAttribute("sessionID", result);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
       }
-//      response.sendRedirect("CreateCalendar.jsp");
-//      response.sendRedirect("index.jsp");
     %>
 </body>
 </html>
