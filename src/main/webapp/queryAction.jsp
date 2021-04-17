@@ -12,7 +12,7 @@
     %>
     <h2><%= sql%></h2>
     <div class="w3-container w3-table-all w3-border">
-      <%=  dbConnect.htmlTable(sql)%>
+      <%=  dbConnect.createHTMLTable(sql)%>
     </div>
     </body>
 </html>

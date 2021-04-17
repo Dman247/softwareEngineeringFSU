@@ -33,23 +33,27 @@
     <body>
                         <div class="searchbox w3-right">
             <form>
-                <input type="text" placeholder=" Type here " name="search" id="search" onchange="openPage()">
+                <input type="search" placeholder=" Type here " name="search" id="search" onchange="openPage()" value="">
                 <a href="queryAvtion.jsp"><button type="submit">Search</button></a>
                 <script>
                     function openPage(){
-                        var x = document.getElementByID("search").value;
+                        var x = document.getElementById("search").value;
                         
-                        if(x==="date"){
-                            window.open("viewEvent.jsp");
-                         else
-                             document.getElementByID("search").setCustomValidity("Can not find");
+                        if(x === "date"){
+                            window.open("date.jsp");
                         }
+                        
+                        if(x === "eventname"){
+                            window.open("eventName.jsp");
+                        }
+                        else
+                            document.getElementById("search").setCustomValidity("Can not find it");
                         
                     }
                     
                     </script>
                 </form>
 
-        
+        </div>
     </body>
 </html>

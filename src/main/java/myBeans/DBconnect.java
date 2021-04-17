@@ -876,5 +876,36 @@ public class DBconnect {
     } else {
       System.out.println(message);
     }
-  }
+    
+    
+     public void searchBar(String eventName) {
+         String result = "";
+         String sql = "select * from event where EventName='"+ eventName +"'";
+         String message = openDB();
+         if (message.equals("Success")) {
+             
+             try{
+                 rst = stm.executeQuery(sql);
+                 rsmd = rst.getMetaData();
+                 rsmd.getColumnCount();
+                 while(rst.next()) {
+                     String Date = rst.getString("date");
+                     String HourStart = rst.getString("hourStart");
+                     String HourFinish = rst.getString("hourFinish");
+                     String Info = rst.getString("info");
+                 }
+                 closeDB();
+             } catch (Exception e) {
+                 System.out.println(e);
+                 closeDB();
+                 return;
+            }
+                
+             } else {
+            closeDB();
+            return ;
+         
+         
+         }
+	}
 }

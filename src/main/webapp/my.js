@@ -26,3 +26,4 @@ function validateEmail() {
 		document.getElementById("email").setCustomValidity("Not available Email");
 	}
 }
+

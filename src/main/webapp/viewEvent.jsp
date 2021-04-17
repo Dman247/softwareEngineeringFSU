@@ -12,13 +12,13 @@
             </div>
         <%
             
-            String sql = "select Date, HourStart, HourFinish, Info from event";
+            String sql = "select Date, HourStart, HourFinish, Info,EventName  from event";
             DBconnect dbConnect = new DBconnect();
  
             
         %>
         <div class="container">
-            <table class="table-dark text dark" border="50" float="center">
+            <table class="table-dark text dark" border="50">
                  <ol type = “1”>
       <%= dbConnect.createHTMLTable(sql)%>  
       </ol>
