@@ -110,30 +110,30 @@ public class DBconnect {
       isValid = 0;
       return isValid;
     }
-  }
 
-  public int getUserIDByName(String username) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    int uID = 0;
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM user WHERE Username='" + username + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        uID = rst.getInt("UserID");
-        closeDB();
-        return uID;
-      } catch (Exception e) {
-        closeDB();
-        return 0;
-      }
-    } else {
-      closeDB();
-      return 0;
+    public int getUserIDBySession(String SessionID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        int uID = 0;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE SessionID='" + SessionID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                uID = rst.getInt("UserID");
+                closeDB();
+                return uID;
+            } catch (Exception e) {
+                closeDB();
+                return 0;
+            }
+        } else {
+            closeDB();
+            return 0;
+        }
     }
   }
 
@@ -210,61 +210,6 @@ public class DBconnect {
       closeDB();
       return "";
     }
-  }
-
-  // get the calendars you're authed to see
-  // event1, event2, event3
-  // for parsing 
-  public String getCalendarIDsbyUserID(int UserID) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    String cNames = "";
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM authedcalendar WHERE UserID='" + UserID + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        while (rst.next()) {
-          cNames = cNames + rst.getInt("CalendarID") + ",";
-        }
-        closeDB();
-        return cNames;
-      } catch (Exception e) {
-        closeDB();
-        return "";
-      }
-    } else {
-      closeDB();
-      return "";
-    }
-  }
-
-  public int getUserIDBySession(String SessionID) {
-    String sql;
-    String result = "Error: ";
-    String message = openDB();
-    int iSession;
-    if (message.equals("Success")) {
-      sql = "SELECT * FROM user WHERE SessionID='" + SessionID + "'";
-      try {
-        rst = stm.executeQuery(sql);
-        rsmd = rst.getMetaData();
-        rsmd.getColumnCount();
-        rst.next();
-        iSession = rst.getInt("UserID");
-        closeDB();
-        return iSession;
-      } catch (Exception e) {
-        closeDB();
-        return 0;
-      }
-    } else {
-      closeDB();
-      return 0;
-    }
-  }
 
   public String getCalendarInfoByID(int CalendarID) {
     String sql;
@@ -513,6 +458,164 @@ public class DBconnect {
       return "";
     }
   }
+	
+    public mytUser getUserInfo(int UserID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String Username = "";
+        // does this work? so i can return the entire object
+        mytUser tempUser = new mytUser();
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE UserID='" + UserID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                tempUser.Username = rst.getString("Username");
+                tempUser.Email = rst.getString("Email");
+                tempUser.FirstName = rst.getString("First Name");
+                tempUser.LastName = rst.getString("Last Name");
+                tempUser.Bio = rst.getString("Bio");
+                tempUser.PictureID = rst.getString("PictureID");
+                tempUser.SecurityQ = rst.getString("SecurityQ");
+                tempUser.SessionID = rst.getString("SessionID");
+                closeDB();
+                return tempUser;
+            } catch (Exception e) {
+                closeDB();
+                return tempUser;
+            }
+        } else {
+            closeDB();
+            return tempUser;
+        }
+    }
+
+    public mytCalendar getCalendarInfo(int CalendarID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        mytCalendar tempCalendar = new mytCalendar();
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM calendar WHERE CalendarID='" + CalendarID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                tempCalendar.CalendarID = CalendarID;
+                tempCalendar.Name = rst.getString("Name");
+                tempCalendar.PictureID = rst.getString("PictureID");
+                tempCalendar.Info = rst.getString("Info");
+                closeDB();
+                tempCalendar.authedUsersRAW = getCalendarUsersByCalendarID(CalendarID);
+                tempCalendar.adminUsersRAW = getCalendarAdminsByCalendarID(CalendarID);
+                tempCalendar.eventIDsRAW = getEventsByCalendarID(CalendarID);
+                return tempCalendar;
+            } catch (Exception e) {
+                closeDB();
+                return tempCalendar;
+            }
+        } else {
+            closeDB();
+            return tempCalendar;
+        }
+    }
+    
+    public mytEvent getEventInfo(int EventID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        mytEvent tempEvent = new mytEvent();
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM event WHERE EventID='" + EventID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                tempEvent.EventID = EventID;
+                tempEvent.Date = rst.getString("Date");
+                tempEvent.HourStart = rst.getString("HourStart");
+                tempEvent.HourFinish = rst.getString("HourFinish");
+                tempEvent.Info = rst.getString("Info");
+                tempEvent.CalendarID = rst.getString("CalendarID");
+                tempEvent.EventName = rst.getString("EventName");
+                closeDB();
+                return tempEvent;
+            } catch (Exception e) {
+                closeDB();
+                return tempEvent;
+            }
+        } else {
+            closeDB();
+            return tempEvent;
+        }
+    }
+
+    public String getAuthedCalendarIDs(int UserID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String cNames = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM authedcalendar WHERE UserID='" + UserID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    cNames = cNames + rst.getInt("CalendarID") + ",";
+                }
+                closeDB();
+                // make sure that we have a , at the end of the string (means we found at least 1 calendar id)
+                // apparently comparing substring returned 0 if they are equal so i have to do not equal... weird
+                if (cNames.substring(cNames.length() - 1) != ",") {
+                    cNames = cNames.substring(0, cNames.length() - 1);
+                }
+                return cNames;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
+
+    public String getAdminCalendarIDs(int UserID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        String cNames = "";
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM admincalendar WHERE UserID='" + UserID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                while (rst.next()) {
+                    cNames = cNames + rst.getInt("CalendarID") + ",";
+                }
+                closeDB();
+                // make sure that we have a , at the end of the string (means we found at least 1 calendar id)
+                // apparently comparing substring returned 0 if they are equal so i have to do not equal... weird
+                if (cNames.substring(cNames.length() - 1) != ",") {
+                    cNames = cNames.substring(0, cNames.length() - 1);
+                }
+                return cNames;
+            } catch (Exception e) {
+                closeDB();
+                return "";
+            }
+        } else {
+            closeDB();
+            return "";
+        }
+    }
 
   public String getUsername(String sql) {
     String result = "Error: ";

@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
+        import="myBeans.mytUser"
+        import="myBeans.mytCalendar"
+        import="myBeans.mytEvent"
         import="myBeans.DBconnect"%>
 <!DOCTYPE html>
 <html>
@@ -16,27 +19,38 @@
 
         <%
             DBconnect dbConnect = new DBconnect();
-            String CalendarIDs = "";
+
+            // used to store the user id and index of calendar we're looking at
+            int iUserID;
+            int arrayID = 0;
+
+            // for looping purposes
+            int i;
+
+            // used to forward user data
+            String sSession = "";
             String CalendarName = "";
             String CalendarNames = "";
-            String CalendarNameTest = "";
-            String sSession = "";
             String CalendarInfo = "";
-            String sGetEventInfo = "";
-            String sGetCalendarInfo = "";
             String sUsers = "";
             String sAdmins = "";
-            int CalendarID;
+
+            // used for determinging if we want to grab a specific event or id on page load
+            String sGetEventInfo = "";
+            String sGetCalendarInfo = "";
+
+            // used to forward event info
             String Event = "";
             String Events = "";
             String EventIDs = "";
             String MyDate = "";
             String MyHourS = "";
             String MyHourF = "";
-            String Events2 = "";
-            String sql;
-            String delims = "[,]+";
-            int i;
+            String EventInfo = "";
+            String EventName = "";
+
+            // will be used to split raw data
+            String delims = "[,]";
 
             //setup vars -- eventually this will be depending on the authed user
             //load all calendarids/names into a dropdown
@@ -44,53 +58,70 @@
             //currently that session is hard coded for hipposaver
             //potential issue: do we grab by calendars your admin of or calendars you can view?
             //if they dont match you will get different results -> force admins to authed as well
-            request.setAttribute("MySession", "JkL00NVMaaz3wr3z");
+            //sSession = request.getParameter("MySession");
             sSession = "JkL00NVMaaz3wr3z";
-
+            iUserID = dbConnect.getUserIDBySession(sSession);
             // validate session to make sure we can grab the info
-            if (sSession != "") {
-                CalendarIDs = dbConnect.getCalendarIDsbyUserID(dbConnect.getUserIDBySession("JkL00NVMaaz3wr3z"));
-                //CalendarIDs = dbConnect.getCalendarIDsbyUserID(3);
-                //if there are no calendars the CalendarIDs = ""
-                if (CalendarIDs != "") {
-                    String[] utokenCalendars = CalendarIDs.split(delims);
-                    //if there is more than 1 calendar we need to setup the string
-                    CalendarNames = "";
+            if (iUserID != 0) {
+
+                //create a new user object
+                mytUser umyUser = new mytUser();
+                //populate based on userid
+                //here we populate not only the info but also the calendars they are admin of and authed to view
+                umyUser.getInfo(iUserID);
+                request.setAttribute("MyUserID", umyUser.UserID);
+
+                //we have at least 1 calendar
+                if (umyUser.tauthedCalendars != 0) {
+                    String[] utokenCalendars = umyUser.authedCalendarIDsRAW.split(delims);
+                    mytCalendar umyAuthedCalendar[] = new mytCalendar[umyUser.tauthedCalendars];
                     if (utokenCalendars.length > 1) {
+                        i = 0;
                         for (i = 0; i < utokenCalendars.length; i++) {
-                            CalendarNames = CalendarNames + dbConnect.getCalendarNameByID(Integer.parseInt(utokenCalendars[i])) + ", ";
+                            //create an array of calendars
+                            //loop and populate each calendar the user is an admin of
+                            i = 0;
+                            for (i = 0; i < umyUser.tauthedCalendars; i++) {
+                                umyAuthedCalendar[i] = dbConnect.getCalendarInfo(Integer.parseInt(utokenCalendars[i]));
+                                // calendar names will be saved for later to produce an easy raw formatted list
+                                // of calendar names to populate dropdowns with later
+                                CalendarNames = umyAuthedCalendar[i].Name + ", " + CalendarNames;
+                            }
+                            // removed the last ", " from the list of names
+                            CalendarNames = CalendarNames.substring(0, CalendarNames.length() - 2);
                         }
-                        //remove the last ", "
-                        CalendarNames = CalendarNames.substring(0, CalendarNames.length() - 2);
                     } else {
                         //if there is only 1 calendar found just populate the single calendar
-                        CalendarNames = dbConnect.getCalendarNameByID(Integer.parseInt(utokenCalendars[0]));
+                        umyAuthedCalendar[0] = dbConnect.getCalendarInfo(Integer.parseInt(utokenCalendars[0]));
                     }
-                } else {
-                    CalendarNames = "";
-                }
 
-                //as long as we've found a calendar name we can populate the information
-                if (CalendarNames != "") {
-
-                    //isolate the first calendar to load into the dropdown
-                    String[] utokenCalendarsName = CalendarNames.split(delims);
                     //we've already verified that at least 1 calendar exists so this should always retrieve a calendar to default to
                     //if GetCalendarInfo = 1 we are grabbing a specific calendars info
                     sGetCalendarInfo = request.getParameter("GetCalendarInfo");
                     if (Integer.parseInt(sGetCalendarInfo) == 1) {
                         CalendarName = request.getParameter("GCalendarName");
+                        //loop through all our calendars to grab the index of the right calendar array
+                        //based on calendar name
+                        for (i = 0; i < umyUser.tauthedCalendars; i++) {
+
+                            if (umyAuthedCalendar[i].Name.equals(CalendarName)) {
+                                // we now know which calendar index we're using
+                                arrayID = i;
+                            }
+                        }
                     } else {
                         //if we arent looking for a specific calendar we load the first in the array
-                        CalendarName = utokenCalendarsName[0];
+                        //we know we're dealing with index 0
+                        arrayID = 0;
+                        CalendarName = umyAuthedCalendar[0].Name;
                     }
-                    CalendarID = dbConnect.getCalendarIDByName(CalendarName);
-                    CalendarInfo = dbConnect.getCalendarInfoByID(CalendarID);
+
+                    CalendarInfo = umyAuthedCalendar[arrayID].Info;
 
                     //checking authed users for the calendar
                     //setup userids then resolve names
                     //assumes every calendar has a user authed
-                    sUsers = dbConnect.getCalendarUsersByCalendarID(CalendarID);
+                    sUsers = umyAuthedCalendar[arrayID].authedUsersRAW;
                     String[] utokenUsers = sUsers.split(delims);
                     sUsers = "";
                     //if there are more than 1 usder authed to view the calendar setup the string for parsing
@@ -108,7 +139,7 @@
                     }
 
                     //checking admin users for the calendar
-                    sAdmins = dbConnect.getCalendarAdminsByCalendarID(CalendarID);
+                    sAdmins = umyAuthedCalendar[arrayID].adminUsersRAW;
                     String[] utokenAdmins = sAdmins.split(delims);
                     sAdmins = "";
                     // if there are more than 1 admin get the string ready
@@ -127,7 +158,7 @@
 
                     //get events for the calendar
                     //event1,event2,event3
-                    Events = dbConnect.getEventsByCalendarID(CalendarID);
+                    Events = umyAuthedCalendar[arrayID].eventIDsRAW;
 
                     //if we have at least 1 event in the calendar we can get the info
                     if (Events != "") {
@@ -144,7 +175,7 @@
                                 }
                             }
                             Events = Events.substring(0, Events.length() - 2);
-                            
+
                         } else {
                             // we only have 1 event in the calendar
                             Events = dbConnect.getEventNameByID(Integer.parseInt(utokenEvents[0]));
@@ -155,17 +186,31 @@
                         sGetEventInfo = request.getParameter("GetEventInfo");
                         if (Integer.parseInt(sGetEventInfo) == 1) {
                             //get the date
+                            mytEvent umyEvent = new mytEvent();
                             Event = request.getParameter("EventID");
-                            MyDate = dbConnect.getEventDateByID(Integer.parseInt(Event));
+                            //populate event info by eventid
+                            umyEvent.getInfo(Integer.parseInt(Event));
+
+                            //MyDate = dbConnect.getEventDateByID(Integer.parseInt(Event));
+                            MyDate = umyEvent.Date;
                             request.setAttribute("MyEventDate", MyDate);
 
                             //get the hours
-                            MyHourS = dbConnect.getEventHourStartByID(Integer.parseInt(Event));
-                            MyHourF = dbConnect.getEventHourFinishByID(Integer.parseInt(Event));
+                            MyHourS = umyEvent.HourStart;
+                            MyHourF = umyEvent.HourFinish;
                             request.setAttribute("MyEventS", MyHourS);
                             request.setAttribute("MyEventF", MyHourF);
+
+                            //get name
+                            EventName = umyEvent.EventName;
+                            request.setAttribute("MyEventName", EventName);
+
+                            //get info
+                            EventInfo = umyEvent.Info;
+                            request.setAttribute("MyEventInfo", EventInfo);
                         }
                     }
+
                 } else {
                     // no calendar name found - this means the user has no calendars it can view
                     CalendarName = "No calendars found for user";
@@ -176,6 +221,7 @@
                     Events = "No events found for user";
                     EventIDs = "";
                 }
+
             } else {
                 // no valid session data found
                 CalendarName = "Invalid session data - please re-login";
