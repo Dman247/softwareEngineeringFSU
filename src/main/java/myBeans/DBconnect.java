@@ -908,4 +908,25 @@ public class DBconnect {
          
          }
 	}
+     
+    public String logout(String sessionID) {
+    String randomString = this.randomString();
+    String sql = "UPDATE user SET SessionID = '' WHERE user.SessionID = '" + sessionID + "'";
+    String message = openDB();
+    if (message.equals("Success")) {
+      try {
+        stm.executeUpdate(sql);
+        closeDB();
+        return "Logged Out";
+      } catch (Exception e) {
+        System.out.println(e);
+        closeDB();
+        return "";
+      }
+    } else {
+      System.out.println(message);
+      return "";
+    }
+  }
+ 
 }

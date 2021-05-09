@@ -10,6 +10,8 @@
             <div class="jumbotron text-center">
             <h1>View Event</h1>
             </div>
+            
+            <%@include file="navBar.jsp" %>
         <%
             
             String sql = "select Date, HourStart, HourFinish, Info,EventName  from event";

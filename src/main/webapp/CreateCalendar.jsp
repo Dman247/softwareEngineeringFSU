@@ -11,6 +11,7 @@
             <div class="jumbotron text-center">
                 <h1>Calendar App - Create Calendar</h1>
             </div>
+            <%@include file="navBar.jsp" %>
             <div class="container">
                 <form name="CAction" action="calendarAction.jsp?GetEventInfo=0">
                     <div class="form-group row">

@@ -8,7 +8,9 @@
         <div class="container">
             <div class="jumbotron text-center">
                 <h1>Calendar App - Log In</h1>
-            </div>
+            </div
+            <%@include file="navBar.jsp" %>
+            <br>
             <div class="container">
                 <div class="d-flex justify-content-center">
                     <form action="loginAction.jsp">

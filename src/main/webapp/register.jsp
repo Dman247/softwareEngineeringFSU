@@ -15,6 +15,7 @@
             <div class="jumbotron text-center">
             <h1>Registration Form</h1>
             </div>
+        <%@include file="navBar.jsp" %>
         <form name="register" action="RegistrationFormAction.jsp" method="get">
             <div class="form-group">
                 <label for="UserName">Username:</label>

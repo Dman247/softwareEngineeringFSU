@@ -31,6 +31,9 @@
 
     </head>
     <body>
+        
+        <%@include file="header.jsp" %>
+            <%@include file="navBar.jsp" %>
                         <div class="searchbox w3-right">
             <form>
                 <input type="search" placeholder=" Type here " name="search" id="search" onchange="openPage()" value="">
