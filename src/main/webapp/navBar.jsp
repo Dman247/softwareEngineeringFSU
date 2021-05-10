@@ -14,19 +14,19 @@
             var sessionID = "${sessionID}";
         </script>
         <nav class="navbar navbar-expand-sm bg-light">
-            <a href="index.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Home</button></a>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=index.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Home</button></a>
             <br>
             <a href="register.jsp" id="thisone" class="w3-bar-item w3-button unAuthedLink"><button type="button" class="btn btn-link">Register</button></a>
             <br>
             <a href="login.jsp" class="w3-bar-item w3-button right unAuthedLink"><button type="button" class="btn btn-link">Log In</button></a>
             <br>
-            <a href="CreateCalendar.jsp" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">Create Calendar</button></a>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=CreateCalendar.jsp" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">Create Calendar</button></a>
             <br>
-            <a href="viewEvent.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">View Event</button></a>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=viewEvent.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">View Event</button></a>
             <br>
-            <a href="searchbar.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Search Bar</button></a>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=searchbar.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Search Bar</button></a>
             <br>
-            <a href="logoutAction.jsp?sessionID=${sessionID}" class="w3-bar-item w3-button right AuthedLink"><button type="button" class="btn btn-link">Log Out</button></a>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=logoutAction.jsp" class="w3-bar-item w3-button right AuthedLink"><button type="button" class="btn btn-link">Log Out</button></a>
             <br>
         </nav>
         <script>
@@ -40,6 +40,10 @@
             } else {
                 unAuthedLinks[0].hidden = true;
                 unAuthedLinks[1].hidden = true;
+            }
+
+            function forwardSession() {
+
             }
         </script>
     </body>

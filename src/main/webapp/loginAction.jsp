@@ -12,7 +12,7 @@
     </head>
 </head>
 <body>
-    <%@include file="header.jsp" %>
+    <%@include file="header.jsp" %>     
     <%
       DBconnect dbConnect = new DBconnect();
       String userName = request.getParameter("userName");

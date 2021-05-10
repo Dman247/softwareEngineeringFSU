@@ -27,6 +27,7 @@
       DBconnect dbConnect = new DBconnect();
       String sessionID = request.getParameter("sessionID");
       String result = dbConnect.logout(sessionID);
+      request.setAttribute("sessionID", "");
       request.getRequestDispatcher("index.jsp").forward(request, response);
       
     %>
