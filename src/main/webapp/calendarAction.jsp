@@ -20,6 +20,7 @@
             String cInfo;
             String cName;
             String sql;
+            String SessionID;
             int i = 0;
             // used for splitting up emails
             String delims = "[,]+";
@@ -44,6 +45,7 @@
             request.setAttribute("vAdminEmail", 0);
             request.setAttribute("vInput", 0);
             request.setAttribute("vUserEmail", 0);
+            SessionID = request.getParameter("sessionID");
 
             aEmails = request.getParameter("CAdmins");
             uEmails = request.getParameter("CUsers");
@@ -103,6 +105,8 @@
                     dbConnect.updateNow(sql);
                 }
             }
+            //forward session id
+            request.setAttribute("sessionID", SessionID);
             request.getRequestDispatcher("CreateCalendar.jsp").forward(request, response);
             response.sendRedirect("CreateCalendar.jsp");
         %>

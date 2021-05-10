@@ -60,7 +60,9 @@
             //potential issue: do we grab by calendars your admin of or calendars you can view?
             //if they dont match you will get different results -> force admins to authed as well
             //sSession = request.getParameter("MySession");
-            sSession = "46GyJlT0nv96aLfj";
+            
+            sSession = request.getParameter("sessionID");
+            //sSession = "46GyJlT0nv96aLfj";
             iUserID = dbConnect.getUserIDBySession(sSession);
             // validate session to make sure we can grab the info
             if (iUserID != 0) {
@@ -249,6 +251,7 @@
             request.setAttribute("MyCInfo", CalendarInfo);
             request.setAttribute("MyCName", CalendarName);
 
+            request.setAttribute("sessionID", sSession);
             request.getRequestDispatcher("ViewCalendar.jsp").forward(request, response);
             response.sendRedirect("ViewCalendar.jsp");
         %>

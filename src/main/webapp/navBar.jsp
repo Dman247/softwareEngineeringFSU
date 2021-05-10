@@ -22,7 +22,7 @@
             <br>
             <a href="navBarAction.jsp?sessionID=${sessionID}&site=CreateCalendar.jsp" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">Create Calendar</button></a>
             <br>
-            <a href="navBarAction.jsp?sessionID=${sessionID}&site=viewEvent.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">View Event</button></a>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=calendarView.jsp?&GetEventInfo=0&GetCalendarInfo=1&CName=&GCalendarName=" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">View Calendar</button></a>
             <br>
             <a href="navBarAction.jsp?sessionID=${sessionID}&site=searchbar.jsp" class="w3-bar-item w3-button"><button type="button" class="btn btn-link">Search Bar</button></a>
             <br>
@@ -37,6 +37,7 @@
             if (sessionID === "") {
                 authedLinks[0].hidden = true;
                 authedLinks[1].hidden = true;
+                authedLinks[2].hidden = true;
             } else {
                 unAuthedLinks[0].hidden = true;
                 unAuthedLinks[1].hidden = true;

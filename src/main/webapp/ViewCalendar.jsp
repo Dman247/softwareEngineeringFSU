@@ -15,13 +15,9 @@
             <div class="jumbotron text-center">
                 <h1>Calendar App - View Calendar</h1>
             </div>
+            <%@include file="navBar.jsp" %>
             <div class="container">
-                <form name="CAction" action="calendarView.jsp?GetEventInfo=0&GetCalendarInfo=0">
-                    <div class="form-group">
-                        <div class="col-lg-12">
-                            <button type="submit" class="btn btn-primary btn-block">Simulate load in from View Calendar link</button>
-                        </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
@@ -110,6 +106,8 @@
                     </div>
                     <script>
                         //update calendar info
+                        var sSessionID = "${sessionID}";
+                        
                         var sMyCInfo = "${MyCInfo}";
                         $("#CInfo").attr('value', sMyCInfo);
 
@@ -134,6 +132,8 @@
                         var tokensCNames = "";
                         var i = 0;
                         tokensCNames = sCNames.split(", ");
+                        
+
 
                         //empty the dropdown for population
                         $("#MyCDropdownBox").empty();
@@ -145,7 +145,7 @@
 
                         // when you click a calendar from the drop down we can do something with it
                         function GCInfo(myCalendarName) {
-                            location.href("calendarView.jsp?&GetEventInfo=0&GetCalendarInfo=1&CName=" + myCalendarName + "&GCalendarName=" + myCalendarName);
+                            location.href("navBarAction.jsp?sessionID=${sessionID}&site=calendarView.jsp?&GetEventInfo=0&GetCalendarInfo=1&SessionID=" + sSessionID + "&CName=" + myCalendarName + "&GCalendarName=" + myCalendarName);
                         }
 
                         // in this script MyEvents looks like a list of eventnames we now have to parse
@@ -172,7 +172,7 @@
                         // when you click an event from the drop down we can do something with it
                         function GetEventInfo(smyEvent) {
                             //geteventinfo=1 so we are now looking for evnt info
-                            location.href("calendarView.jsp?GetCalendarInfo=1&GCalendarName=" + sCNames + "&GetEventInfo=1&EventID=" + smyEvent);
+                            location.href("navBarAction.jsp?sessionID=${sessionID}&site=calendarView.jsp?GetCalendarInfo=1&SessionID=" + sSessionID + "&GCalendarName=" + sCNames + "&GetEventInfo=1&EventID=" + smyEvent);
                         }
 
 
