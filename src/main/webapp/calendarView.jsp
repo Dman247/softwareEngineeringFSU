@@ -9,6 +9,7 @@
         import="myBeans.mytCalendar"
         import="myBeans.mytEvent"
         import="myBeans.DBconnect"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -59,29 +60,38 @@
             //potential issue: do we grab by calendars your admin of or calendars you can view?
             //if they dont match you will get different results -> force admins to authed as well
             //sSession = request.getParameter("MySession");
-            sSession = "JkL00NVMaaz3wr3z";
+            sSession = "46GyJlT0nv96aLfj";
             iUserID = dbConnect.getUserIDBySession(sSession);
             // validate session to make sure we can grab the info
             if (iUserID != 0) {
 
                 //create a new user object
-                mytUser umyUser = new mytUser();
+                
+                mytUser umyUser = new mytUser(iUserID);
                 //populate based on userid
                 //here we populate not only the info but also the calendars they are admin of and authed to view
-                umyUser.getInfo(iUserID);
-                request.setAttribute("MyUserID", umyUser.UserID);
+                //umyUser.getInfo(iUserID);
+                
+                request.setAttribute("MyUserID", umyUser.getUserID());
 
                 //we have at least 1 calendar
-                if (umyUser.tauthedCalendars != 0) {
-                    String[] utokenCalendars = umyUser.authedCalendarIDsRAW.split(delims);
-                    mytCalendar umyAuthedCalendar[] = new mytCalendar[umyUser.tauthedCalendars];
+                if (umyUser.gettauthedCalendars() != 0) {
+                    String[] utokenCalendars = umyUser.getauthedCalendarIDsRAW().split(delims);
+                    mytCalendar umyAuthedCalendar[] = new mytCalendar[umyUser.gettauthedCalendars()];
+                    //mytCalendar_1 umyAuthedCalendar[] = new mytCalendar_1[umyUser.gettauthedCalendars()];
+                    //mytCalendar_1 umyAuthedCalendar[] = new mytCalendar_1[umyUser.gettauthedCalendars()];
+                    //mytCalendar_1 testing = new mytCalendar_1();
+                    //testing.setInfo(1);
                     if (utokenCalendars.length > 1) {
                         i = 0;
                         for (i = 0; i < utokenCalendars.length; i++) {
                             //create an array of calendars
                             //loop and populate each calendar the user is an admin of
                             i = 0;
-                            for (i = 0; i < umyUser.tauthedCalendars; i++) {
+                            for (i = 0; i < umyUser.gettauthedCalendars(); i++) {
+                                //set up my calendar info here
+                                //umyAuthedCalendar[0].setInfo(Integer.parseInt(utokenCalendars[0]));
+                                //umyAuthedCalendar[0].setInfo(1);
                                 umyAuthedCalendar[i] = dbConnect.getCalendarInfo(Integer.parseInt(utokenCalendars[i]));
                                 // calendar names will be saved for later to produce an easy raw formatted list
                                 // of calendar names to populate dropdowns with later
@@ -102,7 +112,7 @@
                         CalendarName = request.getParameter("GCalendarName");
                         //loop through all our calendars to grab the index of the right calendar array
                         //based on calendar name
-                        for (i = 0; i < umyUser.tauthedCalendars; i++) {
+                        for (i = 0; i < umyUser.gettauthedCalendars(); i++) {
 
                             if (umyAuthedCalendar[i].Name.equals(CalendarName)) {
                                 // we now know which calendar index we're using
@@ -186,27 +196,25 @@
                         sGetEventInfo = request.getParameter("GetEventInfo");
                         if (Integer.parseInt(sGetEventInfo) == 1) {
                             //get the date
-                            mytEvent umyEvent = new mytEvent();
                             Event = request.getParameter("EventID");
-                            //populate event info by eventid
-                            umyEvent.getInfo(Integer.parseInt(Event));
+                            mytEvent umyEvent = new mytEvent(Integer.valueOf(Event));
 
                             //MyDate = dbConnect.getEventDateByID(Integer.parseInt(Event));
-                            MyDate = umyEvent.Date;
+                            MyDate = umyEvent.getDate();
                             request.setAttribute("MyEventDate", MyDate);
 
                             //get the hours
-                            MyHourS = umyEvent.HourStart;
-                            MyHourF = umyEvent.HourFinish;
+                            MyHourS = umyEvent.getHourStart();
+                            MyHourF = umyEvent.getHourFinish();
                             request.setAttribute("MyEventS", MyHourS);
                             request.setAttribute("MyEventF", MyHourF);
 
                             //get name
-                            EventName = umyEvent.EventName;
+                            EventName = umyEvent.getEventName();
                             request.setAttribute("MyEventName", EventName);
 
                             //get info
-                            EventInfo = umyEvent.Info;
+                            EventInfo = umyEvent.getInfo();
                             request.setAttribute("MyEventInfo", EventInfo);
                         }
                     }

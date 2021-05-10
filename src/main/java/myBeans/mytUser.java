@@ -11,63 +11,122 @@ package myBeans;
 
 public class mytUser {
 
-    public int UserID = 0;
-    public String Username = "";
-    public String Email = "";
-    public String FirstName = "";
-    public String LastName = "";
-    public String Bio = "";
-    public String PictureID = "";
-    public String SecurityQ = "";
-    public String SessionID = "";
+    protected int UserID = 0;
+    protected String Username = "";
+    protected String Email = "";
+    protected String FirstName = "";
+    protected String LastName = "";
+    protected String Bio = "";
+    protected String PictureID = "";
+    protected String SecurityQ = "";
+    protected String SessionID = "";
 
     // i couldnt figure an easy way out to expand the array of calendar IDs later if i made these
     // public int[] authedCalendarIDS = new int[0];
     // i tried a few things but i think the scope messes some stuff up, so for now we just return the raw data
     // and can manipulate that on the other end
-    public int tauthedCalendars = 0;
-    public String authedCalendarIDsRAW = "";
-    public int tadminCalendars = 0;
-    public String adminCalendarIDsRAW = "";
+    protected int tauthedCalendars = 0;
+    protected String authedCalendarIDsRAW = "";
+    protected int tadminCalendars = 0;
+    protected String adminCalendarIDsRAW = "";
 
-    // create a db object to access mysql
-    // and a userobject to easily handle the returns from dbserver
-    public void getInfo(int uID) {
+    public mytUser(int UserID) {
+        String tempDataRAW = "";
+        this.UserID = UserID;
         DBconnect udbConnect = new DBconnect();
-        mytUser myaUser = new mytUser();
+        tempDataRAW = udbConnect.getUserInfo(UserID);
 
-        UserID = uID;
-        myaUser = udbConnect.getUserInfo(uID);
-        Username = myaUser.Username;
-        FirstName = myaUser.FirstName;
-        LastName = myaUser.LastName;
-        Bio = myaUser.Bio;
-        PictureID = myaUser.PictureID;
-        SecurityQ = myaUser.SecurityQ;
-        SessionID = myaUser.SessionID;
-
+        // we have valid user data
+        if (tempDataRAW != "") {
+            String delims = "[$]";
+            String[] utokenDataRAW = tempDataRAW.split(delims);
+            this.Username = utokenDataRAW[0];
+            this.Email = utokenDataRAW[1];
+            this.FirstName = utokenDataRAW[2];
+            this.LastName = utokenDataRAW[3];
+            this.Bio = utokenDataRAW[4];
+            this.PictureID = utokenDataRAW[5];
+            this.SecurityQ = utokenDataRAW[6];
+            this.SessionID = utokenDataRAW[7];
+        }
+        
         // we have a valid user id we can grab the calendars
         if (UserID != 0) {
             // i have to do this manipulation to re-size my array for the proper calendar list size
-            authedCalendarIDsRAW = udbConnect.getAuthedCalendarIDs(uID);
+            this.authedCalendarIDsRAW = udbConnect.getAuthedCalendarIDs(UserID);
             // make sure we have at least 1 calendar id
-            if (authedCalendarIDsRAW != "") {
+            if (this.authedCalendarIDsRAW != "") {
                 String delims = "[,]";
-                String[] utokenCalendars = authedCalendarIDsRAW.split(delims);
+                String[] utokenCalendars = this.authedCalendarIDsRAW.split(delims);
                 // stored like: 1,2,3
-                tauthedCalendars = utokenCalendars.length;
+                this.tauthedCalendars = utokenCalendars.length;
             }
-            adminCalendarIDsRAW = udbConnect.getAdminCalendarIDs(uID);
-            if (adminCalendarIDsRAW != "") {
+            this.adminCalendarIDsRAW = udbConnect.getAdminCalendarIDs(UserID);
+            if (this.adminCalendarIDsRAW != "") {
                 String delims = "[,]";
-                String[] utokenCalendars = adminCalendarIDsRAW.split(delims);
+                String[] utokenCalendars = this.adminCalendarIDsRAW.split(delims);
                 // stored like: 1,2,3
-                tadminCalendars = utokenCalendars.length;
+                this.tadminCalendars = utokenCalendars.length;
             }
 
         } else {
-            tauthedCalendars = 0;
-            tadminCalendars = 0;
+            this.tauthedCalendars = 0;
+            this.tadminCalendars = 0;
         }
+
+    }
+
+
+    // Gets
+    public String getUsername() {
+        return Username;
+    }
+
+    public int getUserID() {
+        return UserID;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public String getBio() {
+        return Bio;
+    }
+
+    public String getPictureID() {
+        return PictureID;
+    }
+
+    public String getSecurityQ() {
+        return SecurityQ;
+    }
+
+    public int gettauthedCalendars() {
+        return tauthedCalendars;
+    }
+
+    public String getauthedCalendarIDsRAW() {
+        return authedCalendarIDsRAW;
+    }
+
+    public int gettadminCalendars() {
+        return tadminCalendars;
+    }
+
+    public String getadminCalendarIDsRAW() {
+        return adminCalendarIDsRAW;
+    }
+
+    public String getSessionID() {
+        return SessionID;
     }
 }
