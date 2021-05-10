@@ -11,17 +11,16 @@
           
                   <%
                       DBconnect dbConnect = new DBconnect();
-                      String sql = "select Date, HourStart, HourFinish, Info,EventName  from event";
+                      String Event;
+                      String MyDate;
+                      String MyHourS;
+                      String MyHourF;
+                      String sql;
                       
                   %>
 
-                      
-                      <div class="container">
-            <table class="table-dark text dark" border="50">
-                 <ol type = “1”>
       <%= dbConnect.searchBar(sql)%>  
-      </ol>
-    </table>
+
         
     </body>
 </html>

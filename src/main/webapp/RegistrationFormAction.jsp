@@ -23,7 +23,6 @@
       else
     %>
     <script>alert("<%= err %>");</script>
-    </div>
   </body>
 </html>
  
