@@ -17,8 +17,9 @@ public class mytUser {
     protected String FirstName = "";
     protected String LastName = "";
     protected String Bio = "";
-    protected String PictureID = "";
+    protected int PictureID = 0;
     protected String SecurityQ = "";
+    protected String SecurityA = "";
     protected String SessionID = "";
 
     // i couldnt figure an easy way out to expand the array of calendar IDs later if i made these
@@ -45,7 +46,7 @@ public class mytUser {
             this.FirstName = utokenDataRAW[2];
             this.LastName = utokenDataRAW[3];
             this.Bio = utokenDataRAW[4];
-            this.PictureID = utokenDataRAW[5];
+//            this.PictureID = utokenDataRAW[5];
             this.SecurityQ = utokenDataRAW[6];
             this.SessionID = utokenDataRAW[7];
         }
@@ -79,54 +80,118 @@ public class mytUser {
 
     // Gets
     public String getUsername() {
-        return Username;
+        return this.Username;
     }
 
     public int getUserID() {
-        return UserID;
+        return this.UserID;
     }
 
     public String getEmail() {
-        return Email;
+        return this.Email;
     }
 
     public String getFirstName() {
-        return FirstName;
+        return this.FirstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return this.LastName;
     }
 
     public String getBio() {
-        return Bio;
+        return this.Bio;
     }
 
-    public String getPictureID() {
-        return PictureID;
+    public int getPictureID() {
+        return this.PictureID;
     }
 
     public String getSecurityQ() {
-        return SecurityQ;
+        return this.SecurityQ;
+    }
+
+    public String getSecurityA() {
+        return this.SecurityA;
     }
 
     public int gettauthedCalendars() {
-        return tauthedCalendars;
+        return this.tauthedCalendars;
     }
 
     public String getauthedCalendarIDsRAW() {
-        return authedCalendarIDsRAW;
+        return this.authedCalendarIDsRAW;
     }
 
     public int gettadminCalendars() {
-        return tadminCalendars;
+        return this.tadminCalendars;
     }
 
     public String getadminCalendarIDsRAW() {
-        return adminCalendarIDsRAW;
+        return this.adminCalendarIDsRAW;
     }
 
     public String getSessionID() {
-        return SessionID;
+        return this.SessionID;
     }
+    
+    
+    // Sets
+    public void setUsername(String param) {
+        this.Username = param;
+    }
+
+    public void setUserID(int param) {
+        this.UserID = param;
+    }
+
+    public void setEmail(String param) {
+        this.Email = param;
+    }
+
+    public void setFirstName(String param) {
+        this.FirstName = param;
+    }
+
+    public void setLastName(String param) {
+        this.LastName = param;
+    }
+
+    public void setBio(String param) {
+        this.Bio = param;
+    }
+
+    public void setPictureID(int param) {
+        this.PictureID = param;
+    }
+
+    public void setSecurityQ(String param) {
+        this.SecurityQ = param;
+    }
+
+    public void setSecurityA(String param) {
+        this.SecurityA = param;
+    }
+
+    public void settauthedCalendars(int param) {
+        this.tauthedCalendars = param;
+    }
+
+    public void setauthedCalendarIDsRAW(String param) {
+        this.authedCalendarIDsRAW = param;
+    }
+
+    public void settadminCalendars(int param) {
+        this.tadminCalendars = param;
+    }
+
+    public void setadminCalendarIDsRAW(String param) {
+        this.adminCalendarIDsRAW = param;
+    }
+
+    public void setSessionID(String param) {
+        this.SessionID = param;
+    }
+
+    
 }

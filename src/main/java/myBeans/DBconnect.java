@@ -5,6 +5,7 @@
 package myBeans;
 
 import java.sql.*;
+import myBeans.mytUser;
 
 public class DBconnect {
 
@@ -954,5 +955,47 @@ public class DBconnect {
       return "";
     }
   }
- 
+
+    
+    public mytUser getUserBySession(String SessionID) {
+        String sql;
+        String result = "Error: ";
+        String message = openDB();
+        int uID = 0;
+        if (message.equals("Success")) {
+            sql = "SELECT * FROM user WHERE SessionID='" + SessionID + "'";
+            try {
+                rst = stm.executeQuery(sql);
+                rsmd = rst.getMetaData();
+                rsmd.getColumnCount();
+                rst.next();
+                uID = rst.getInt("UserID");
+                String bio = rst.getString("Bio");
+                String firstName = rst.getString("First Name");
+                String lastName = rst.getString("Last Name");
+                int pictureID = rst.getInt("PictureID");
+                String securityQ = rst.getString("SecurityQ");
+                String securityA = rst.getString("SecurityA");
+                mytUser user = new mytUser(uID);
+                user.setBio(bio);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setPictureID(pictureID);
+                user.setSecurityQ(securityQ);
+                user.setSecurityA(securityA);
+                user.setSessionID(SessionID);
+                user.setUserID(uID);
+                user.setUsername(url);
+                closeDB();
+                return user;
+            } catch (Exception e) {
+                closeDB();
+                return null;
+            }
+        } else {
+            closeDB();
+            return null;
+        }
+    
+  }
 }

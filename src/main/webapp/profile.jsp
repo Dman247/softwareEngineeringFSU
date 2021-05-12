@@ -6,6 +6,8 @@
         <div class="jumbotron text-center">
             <h1>Calendar App - Profile</h1>
         </div>
+        <%@include file="navBar.jsp" %>
+        <br>
         <div class="row">
             <div class="col-md-4 mb-3">
                 <div class="card">
@@ -13,7 +15,7 @@
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://cdn.pixabay.com/photo/2012/04/13/21/07/user-33638__340.png" class="rounded" width="150">
                             <div class="mt-3">
-                                <h4>Dylan</h4>
+                                <h4>${firstName}</h4>
                             </div>
                         </div>
                     </div>
@@ -27,7 +29,7 @@
                                 <h6 class="mb-0">Full Name</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                Dylan Hague
+                                ${firstName} ${lastName}
                             </div>
                         </div>
                         <hr>
@@ -36,7 +38,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                haguedylan@gmail.com
+                                ${email}
                             </div>
                         </div>
                         <hr>
@@ -45,7 +47,7 @@
                                 <h6 class="mb-0">Bio</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                ${bio}
                             </div>
                         </div>
                     </div>
@@ -53,5 +55,6 @@
             </div>
         </div>
     </div>
+        <%@include file="footer.jsp" %>
 </div>
 </body>

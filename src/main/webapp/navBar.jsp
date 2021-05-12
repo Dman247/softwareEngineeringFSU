@@ -20,6 +20,8 @@
             <br>
             <a href="login.jsp" class="w3-bar-item w3-button right unAuthedLink"><button type="button" class="btn btn-link">Log In</button></a>
             <br>
+            <a href="navBarAction.jsp?sessionID=${sessionID}&site=profileAction.jsp" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">Profile</button></a>
+            <br>
             <a href="navBarAction.jsp?sessionID=${sessionID}&site=CreateCalendar.jsp" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">Create Calendar</button></a>
             <br>
             <a href="navBarAction.jsp?sessionID=${sessionID}&site=calendarView.jsp?&GetEventInfo=0&GetCalendarInfo=1&CName=&GCalendarName=" class="w3-bar-item w3-button AuthedLink"><button type="button" class="btn btn-link">View Calendar</button></a>
@@ -38,6 +40,7 @@
                 authedLinks[0].hidden = true;
                 authedLinks[1].hidden = true;
                 authedLinks[2].hidden = true;
+                authedLinks[3].hidden = true;
             } else {
                 unAuthedLinks[0].hidden = true;
                 unAuthedLinks[1].hidden = true;
